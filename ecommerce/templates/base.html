@@ -10,7 +10,7 @@
 
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Site Metas -->
     <title>Freshshop - Ecommerce Bootstrap 4 HTML Template</title>
     <meta name="keywords" content="">
@@ -135,7 +135,11 @@
                         {% if user.is_superuser == True %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'shop:addcategory' %}">AddCategories</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'shop:addproduct' %}">AddProducts</a></li>
+
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'cart:orders' %}">Your Orders</a></li>
                         {% endif %}
+
                         <li class="nav-item"><a class="nav-link" href="{% url 'shop:userlogout' %}">Logout</a></li>
                         {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'shop:register' %}">Register</a></li>
@@ -149,45 +153,21 @@
                 <div class="attr-nav">
                     <ul>
                         <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
-                        <li class="side-menu">
-							<a href="#">
+						{% if user.is_authenticated %}
+                        {% if user.is_superuser != True %}
+                        <li>
+                        <a href="{% url 'cart:cartview' %}">
 								<i class="fa fa-shopping-bag"></i>
-								<span class="badge">3</span>
-								<p>My Cart</p>
+								<span class="badge">{{count}}</span>
 							</a>
 						</li>
+                        {% endif %}
+                        {% endif %}
                     </ul>
                 </div>
                 <!-- End Atribute Navigation -->
             </div>
-            <!-- Start Side Menu -->
-            <div class="side">
-                <a href="#" class="close-side"><i class="fa fa-times"></i></a>
-                <li class="cart-box">
-                    <ul class="cart-list">
-                        <li>
-                            <a href="#" class="photo"><img src="{% static 'images/img-pro-01.jpg' %}" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Delica omtantur </a></h6>
-                            <p>1x - <span class="price">$80.00</span></p>
-                        </li>
-                        <li>
-                            <a href="#" class="photo"><img src="{% static 'images/img-pro-02.jpg' %}" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Omnes ocurreret</a></h6>
-                            <p>1x - <span class="price">$60.00</span></p>
-                        </li>
-                        <li>
-                            <a href="#" class="photo"><img src="{% static 'images/img-pro-03.jpg' %}" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Agam facilisis</a></h6>
-                            <p>1x - <span class="price">$40.00</span></p>
-                        </li>
-                        <li class="total">
-                            <a href="#" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
-                            <span class="float-right"><strong>Total</strong>: $180.00</span>
-                        </li>
-                    </ul>
-                </li>
-            </div>
-            <!-- End Side Menu -->
+
         </nav>
         <!-- End Navigation -->
     </header>
@@ -196,11 +176,12 @@
     <!-- Start Top Search -->
     <div class="top-search">
         <div class="container">
+            <form action="{% url 'search:search' %}">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                <input type="text" class="form-control" placeholder="Search">
-                <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+                <input type="text" class="form-control" name="q" placeholder="Search">
+                <button type="submit"><i class="fa fa-search"></i></button>
             </div>
+            </form>
         </div>
     </div>
     <!-- End Top Search -->
